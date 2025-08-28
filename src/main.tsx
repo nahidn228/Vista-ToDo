@@ -6,10 +6,17 @@ import { router } from "./routes/index.tsx";
 import { RouterProvider } from "react-router";
 import { ThemeProvider } from "./components/provider/theme-provider.tsx";
 
+
+import { Provider } from 'react-redux'
+import { store } from "./redux/store.ts";
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <Provider store={store}>
+
       <RouterProvider router={router} />
+      </Provider>
     </ThemeProvider>
   </StrictMode>
 );
