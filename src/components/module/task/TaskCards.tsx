@@ -14,7 +14,7 @@ const TaskCards = ({ task }: IProps) => {
     <div className="grid grid-cols-6 justify-between items-center border px-5 py-3 rounded-md">
       {/* Left Section: Checkbox and Task Details */}
       <div className="flex items-center gap-4 col-span-4">
-        <Checkbox />
+        <Checkbox  />
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
             <h1 className="text-lg font-semibold">{task.title}</h1>
