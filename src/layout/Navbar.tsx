@@ -22,7 +22,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { ModeToggle } from "../mode-toggle";
+import { ModeToggle } from "../components/mode-toggle";
 
 interface MenuItem {
   title: string;
