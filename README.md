@@ -53,21 +53,7 @@ production version deployed on Vercel!
 
 ---
 
-## 📂 Project Structure
 
-src/ ├── assets/ # Images, icons (e.g. logo) │ ├── Vista SysTech-02 1.png │ └──
-react.svg ├── components/ # Reusable UI & module components │ ├── module/task/ │
-│ ├── AddTaskModal.tsx │ │ └── TaskCards.tsx │ └── ui/ │ │ ├── accordion.tsx │ │
-└── button.tsx # and many more │ └── mode-toggle.tsx ├── hook/ │ └── hooks.ts #
-Custom hooks ├── layout/ │ └── Navbar.tsx # App navigation ├── lib/ │ └──
-utils.ts # Utility functions ├── pages/ │ └── Tasks.tsx # Tasks page ├──
-provider/ │ └── theme-provider.tsx ├── redux/ # Global state (Redux Toolkit) │
-├── features/task/ │ │ ├── taskSlice.ts │ │ └── todoSlice.ts │ └── store.ts ├──
-routes/ │ └── index.tsx # Route management ├── types/ │ └── index.ts # Type
-definitions ├── App.tsx # Root component ├── index.css # Global styles ├──
-main.tsx # App entry point └── vite-env.d.ts
-
----
 
 ## 📊 Global State (Redux Toolkit)
 
