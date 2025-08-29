@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -10,6 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { v4 as uuidv4 } from "uuid";
 import {
   Form,
   FormControl,
@@ -34,6 +36,7 @@ import type { ITaskItem } from "@/types";
 import { format } from "date-fns";
 import { CalendarIcon, Plus } from "lucide-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
+import { toast } from "sonner";
 
 export function AddTaskModal() {
   const form = useForm<ITaskItem>();
@@ -41,11 +44,41 @@ export function AddTaskModal() {
   const dispatch = useAppDispatch();
 
   const onSubmit: SubmitHandler<ITaskItem> = (data: ITaskItem) => {
+    const toastId = toast.loading("Creating Task...");
     try {
       console.log(data);
+
+      if (!data.description || !data.dueDate || !data.title) {
+        return toast.error("Please Provide all data", { id: toastId });
+      }
       dispatch(addTask(data));
-    } catch (error) {
+
+      const id = uuidv4();
+
+      const taskData = {
+        ...data,
+        id,
+        isCompleted: false,
+      };
+
+      // 1. Get existing tasks from local storage
+      const existingTasksString = localStorage.getItem("tasks");
+      let existingTasks = [];
+
+      if (existingTasksString) {
+        existingTasks = JSON.parse(existingTasksString);
+      }
+
+      // 2. Add the new task to the array
+      const updatedTasks = [...existingTasks, taskData];
+
+      localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+
+      toast.success("Task is Created Successfully", { id: toastId });
+      form.reset();
+    } catch (error: any) {
       console.error(error);
+      toast.error(error.message, { id: toastId });
     }
   };
   return (

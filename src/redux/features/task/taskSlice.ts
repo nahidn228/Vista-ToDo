@@ -9,30 +9,22 @@ interface InitialState {
   filter: "All" | "Active" | "Completed";
 }
 
+// Function to load tasks from local storage
+const loadTasks = (): ITaskItem[] => {
+  try {
+    const serializedTasks = localStorage.getItem("tasks");
+    if (serializedTasks === null) {
+      return [];
+    }
+    return JSON.parse(serializedTasks);
+  } catch (error) {
+    console.error("Failed to load tasks from local storage", error);
+    return [];
+  }
+};
+
 const initialState: InitialState = {
-  task: [
-    {
-      title: "fgvbndf",
-      dueDate: "2025-09-04T18:00:00.000Z",
-      description: "gngnfgngfnm",
-      id: "33734dda-f160-4798-a5ac-",
-      isCompleted: false,
-    },
-    {
-      title: "fgvbndf",
-      dueDate: "2025-09-04T18:00:00.000Z",
-      description: "gngnfgngfnm",
-      id: "33734dda-f160-4798-a5ac-eff44f0a1506",
-      isCompleted: true,
-    },
-    {
-      title: "zzzzzzz",
-      dueDate: "2025-09-04T18:00:00.000Z",
-      description: "gngnfgngfnm",
-      id: "33734dda-f160-a5ac-eff44f0a1506",
-      isCompleted: true,
-    },
-  ],
+  task: loadTasks(),
   filter: "All",
 };
 

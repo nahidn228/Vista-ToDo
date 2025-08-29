@@ -1,9 +1,20 @@
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useAppDispatch } from "@/hook/hooks";
 import { cn } from "@/lib/utils";
 import { deleteTask, toggleComplete } from "@/redux/features/task/taskSlice";
-
+import { format } from "date-fns";
 import type { ITaskItem } from "@/types";
 
 import { CalendarIcon, ClipboardPen, Trash2 } from "lucide-react";
@@ -19,7 +30,7 @@ const TaskCards = ({ task }: IProps) => {
       {/* Left Section: Checkbox and Task Details */}
       <div className="flex items-center gap-4 mb-2 md:mb-0">
         <Checkbox
-          checked={task.isCompleted}
+          checked={task?.isCompleted}
           onClick={() => dispatch(toggleComplete(task.id as string))}
         />
         <div className="flex flex-col">
@@ -41,20 +52,40 @@ const TaskCards = ({ task }: IProps) => {
         <div className="flex items-center gap-1">
           <CalendarIcon className="h-4 w-4 opacity-50" />
           <p className="text-sm text-gray-400">
-            {new Date(task.dueDate).toLocaleDateString()}
+            {format(new Date(task.dueDate), "MM/dd/yyyy")}
           </p>
         </div>
         <div className="flex gap-2">
-          <Button variant="ghost" className="p-2">
-            <ClipboardPen size={20} />
-          </Button>
-          <Button
-            onClick={() => dispatch(deleteTask(task.id as string))}
-            variant="ghost"
-            className="p-2 text-red-500"
-          >
-            <Trash2 size={20} />
-          </Button>
+          {!task.isCompleted === true && (
+            <Button variant="ghost" className="p-2">
+              <ClipboardPen size={20} />
+            </Button>
+          )}
+
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="ghost" className="p-2 text-red-500">
+                <Trash2 size={20} />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete
+                  your account and remove your data from our servers.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={() => dispatch(deleteTask(task.id as string))}
+                >
+                  Delete
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </div>
     </div>

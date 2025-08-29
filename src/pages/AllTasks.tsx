@@ -69,7 +69,12 @@ const AllTasks = () => {
           </TabsList>
         </Tabs>
       </div>
-      <Navbar />
+      <Navbar
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        filter={filter}
+        setFilter={setFilter}
+      />
 
       <Input
         type="text"
