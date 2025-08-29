@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,12 +19,23 @@ import { format } from "date-fns";
 import type { ITaskItem } from "@/types";
 
 import { CalendarIcon, ClipboardPen, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface IProps {
   task: ITaskItem;
 }
 
 const TaskCards = ({ task }: IProps) => {
+  const handleDelete = (id: string) => {
+    const toastId = toast.loading("Please Wait, While deleting.....");
+    try {
+      dispatch(deleteTask(id));
+      toast.success("Task deleted successfully", { id: toastId });
+    } catch (error: any) {
+      console.error(error.message);
+      toast.error(error.message, { id: toastId });
+    }
+  };
   const dispatch = useAppDispatch();
   return (
     <div className="container mx-auto flex flex-wrap justify-between items-center border px-5 py-3 rounded-md">
@@ -78,8 +90,9 @@ const TaskCards = ({ task }: IProps) => {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction className="bg-red-500 text-white"
-                  onClick={() => dispatch(deleteTask(task.id as string))}
+                <AlertDialogAction
+                  className="bg-red-500 text-white"
+                  onClick={() => handleDelete(task.id as string)}
                 >
                   Delete
                 </AlertDialogAction>
