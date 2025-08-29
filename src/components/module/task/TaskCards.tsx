@@ -1,5 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useAppDispatch } from "@/hook/hooks";
+import { cn } from "@/lib/utils";
+import { deleteTask, toggleComplete } from "@/redux/features/task/taskSlice";
 
 import type { ITaskItem } from "@/types";
 
@@ -10,14 +13,25 @@ interface IProps {
 }
 
 const TaskCards = ({ task }: IProps) => {
+  const dispatch = useAppDispatch();
   return (
     <div className="grid grid-cols-6 justify-between items-center border px-5 py-3 rounded-md">
       {/* Left Section: Checkbox and Task Details */}
       <div className="flex items-center gap-4 col-span-4">
-        <Checkbox />
+        <Checkbox
+          checked={task.isCompleted}
+          onClick={() => dispatch(toggleComplete(task.id as string))}
+        />
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
-            <h1 className="text-lg font-semibold">{task.title}</h1>
+            <h1
+              className={cn(
+                { "line-through": task.isCompleted },
+                "text-lg font-semibold"
+              )}
+            >
+              {task.title}
+            </h1>
           </div>
           <p className="text-gray-500 mt-1">{task.description}</p>
         </div>
@@ -36,7 +50,11 @@ const TaskCards = ({ task }: IProps) => {
             <Button variant="ghost" className="p-2">
               <ClipboardPen size={20} />
             </Button>
-            <Button variant="ghost" className="p-2 text-red-500">
+            <Button
+              onClick={() => dispatch(deleteTask(task.id as string))}
+              variant="ghost"
+              className="p-2 text-red-500"
+            >
               <Trash2 size={20} />
             </Button>
           </div>
