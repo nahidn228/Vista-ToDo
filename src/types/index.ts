@@ -1,9 +1,8 @@
 export interface ITaskItem {
-  id: string;
+  id?: string;
   title: string;
   description: string;
   dueDate: string;
   isCompleted: boolean;
-  isActive: boolean;
-  priority: "low" | "medium" | "high";
+  // isActive: boolean;
 }

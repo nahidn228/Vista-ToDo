@@ -10,7 +10,7 @@ const AllTasks = () => {
   console.log(filter);
   return (
     <div>
-       <div className="flex justify-between item-center">
+       <div className="flex justify-between item-center py-4">
         <h1>Tasks</h1>
         <AddTaskModal />
       </div>

@@ -1,6 +1,7 @@
 import type { RootState } from "@/redux/store";
 import type { ITaskItem } from "@/types";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { v4 as uuidv4 } from "uuid";
 
 interface InitialState {
   task: ITaskItem[];
@@ -8,43 +9,24 @@ interface InitialState {
 }
 
 const initialState: InitialState = {
-  task: [
-    {
-      id: "hghujvhjuvj65456",
-      title: "initialize frontend",
-      description:
-        "initialize frontend for showing redux fvn bjkwdrv cvwjhbbnw initialize frontend for showing redux fvn bjkwdrv cvwjhbbnw initialize frontend for showing redux fvn bjkwdrv cvwjhbbnw initialize frontend for showing redux fvn bjkwdrv cvwjhbbnw initialize frontend for showing redux fvn bjkwdrv cvwjhbbnw",
-      dueDate: "2025-11",
-      isCompleted: false,
-      isActive: true,
-      priority: "high",
-    },
-    {
-      id: "hghujjuvj65456",
-      title: "customized frontend",
-      description: "initialize frontend for showing redux",
-      dueDate: "2025-11",
-      isCompleted: false,
-      isActive: true,
-      priority: "high",
-    },
-    {
-      id: "hhujj65456",
-      title: "Create github repo",
-      description: "initialize frontend for showing redux",
-      dueDate: "2025-11",
-      isCompleted: false,
-      isActive: true,
-      priority: "high",
-    },
-  ],
+  task: [],
   filter: "All",
 };
 
 const taskSlice = createSlice({
   name: "aLlTasks",
   initialState,
-  reducers: {},
+  reducers: {
+    addTask: (state, action: PayloadAction<ITaskItem>) => {
+      const id = uuidv4();
+      const taskData = {
+        ...action.payload,
+        id,
+        isCompleted: false,
+      };
+      state.task.push(taskData);
+    },
+  },
 });
 
 export const selectTasks = (state: RootState) => {
@@ -53,5 +35,7 @@ export const selectTasks = (state: RootState) => {
 export const selectFilter = (state: RootState) => {
   return state.allTasks.filter;
 };
+
+export const { addTask } = taskSlice.actions;
 
 export default taskSlice.reducer;
