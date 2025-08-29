@@ -41,14 +41,18 @@ export function AddTaskModal() {
   const dispatch = useAppDispatch();
 
   const onSubmit: SubmitHandler<ITaskItem> = (data: ITaskItem) => {
-    console.log(data);
-    dispatch(addTask(data));
+    try {
+      console.log(data);
+      dispatch(addTask(data));
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <Dialog>
       <form>
         <DialogTrigger asChild>
-          <Button className="bg-green-600">
+          <Button className="text-white bg-[#15803D]">
             <Plus /> Add Task
           </Button>
         </DialogTrigger>
@@ -103,7 +107,9 @@ export function AddTaskModal() {
                       <PopoverContent className="w-auto p-0" align="start">
                         <Calendar
                           mode="single"
-                          selected={field.value ? new Date(field.value) : undefined}
+                          selected={
+                            field.value ? new Date(field.value) : undefined
+                          }
                           onSelect={field.onChange}
                           // disabled={(date) =>
                           //   date > new Date() || date < new Date("1900-01-01")
@@ -136,7 +142,7 @@ export function AddTaskModal() {
                 <DialogClose asChild>
                   <Button variant="outline">Close </Button>
                 </DialogClose>
-                <Button type="submit" className="bg-green-600">
+                <Button type="submit" className="text-background">
                   Add Task
                 </Button>
               </DialogFooter>
