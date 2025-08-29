@@ -52,7 +52,7 @@ const TaskCards = ({ task }: IProps) => {
         <div className="flex items-center gap-1">
           <CalendarIcon className="h-4 w-4 opacity-50" />
           <p className="text-sm text-gray-400">
-            {format(new Date(task.dueDate), "MM/dd/yyyy")}
+            {format(new Date(task.dueDate), "PPP")}
           </p>
         </div>
         <div className="flex gap-2">
@@ -78,7 +78,7 @@ const TaskCards = ({ task }: IProps) => {
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction
+                <AlertDialogAction className="bg-red-500 text-white"
                   onClick={() => dispatch(deleteTask(task.id as string))}
                 >
                   Delete
